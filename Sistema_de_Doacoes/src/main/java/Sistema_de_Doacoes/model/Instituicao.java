@@ -36,6 +36,9 @@ public class Instituicao {
     private String endereco;
 
     @Column(nullable = false)
+    private String cep;
+
+    @Column(nullable = false)
     private LocalDate dataCadastro = LocalDate.now();
 
     @OneToMany(mappedBy = "instituicao",cascade = CascadeType.ALL)

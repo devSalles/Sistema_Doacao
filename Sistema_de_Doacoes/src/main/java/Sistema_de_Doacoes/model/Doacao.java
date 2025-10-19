@@ -2,8 +2,6 @@ package Sistema_de_Doacoes.model;
 
 import Sistema_de_Doacoes.Enum.PagamentoEnum;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.PastOrPresent;
-import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
