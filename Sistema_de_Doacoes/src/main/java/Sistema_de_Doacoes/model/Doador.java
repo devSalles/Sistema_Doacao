@@ -2,6 +2,7 @@ package Sistema_de_Doacoes.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,7 +35,7 @@ public class Doador {
     @Column(nullable = false)
     private String telefone;
 
-    @Column(nullable = false)
+    @Column(nullable = false) @PastOrPresent(message = "Data deve ser passada ou de agora")
     private LocalDate dataCadastro = LocalDate.now();
 
     @OneToMany(mappedBy = "doador", cascade = CascadeType.ALL)
