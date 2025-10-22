@@ -1,10 +1,10 @@
 package Sistema_de_Doacoes.core.exceptions;
 
-public class CpfNaoEncontrado extends RuntimeException {
-    public CpfNaoEncontrado(String message) {
+public class CpfNaoEncontradoException extends RuntimeException {
+    public CpfNaoEncontradoException(String message) {
         super(message);
     }
-    public CpfNaoEncontrado() {
+    public CpfNaoEncontradoException() {
         super("CPF não encontrado");
     }
 }

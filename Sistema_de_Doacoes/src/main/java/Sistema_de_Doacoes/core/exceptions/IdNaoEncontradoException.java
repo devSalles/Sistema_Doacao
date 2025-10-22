@@ -1,10 +1,10 @@
 package Sistema_de_Doacoes.core.exceptions;
 
-public class IdNaoEncontrado extends RuntimeException {
-    public IdNaoEncontrado(String message) {
+public class IdNaoEncontradoException extends RuntimeException {
+    public IdNaoEncontradoException(String message) {
         super(message);
     }
-    public IdNaoEncontrado() {
+    public IdNaoEncontradoException() {
         super("Id não encontrado");
     }
 }
