@@ -77,7 +77,8 @@ public class DoadorService {
     public Doador buscaPorCPF(String cpf)
     {
         Doador doador = this.doadorRepository.findByCpf(cpf);
-        if(doador.getCpf().isEmpty() || doador.getCpf().isBlank())
+
+        if(doador == null)
         {
             throw new CpfNaoEncontradoException();
         }
