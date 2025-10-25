@@ -32,6 +32,13 @@ public class ExceptionsHandlers {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(messageRestError);
     }
 
+    @ExceptionHandler(CpfNaoEncontradoException.class)
+    public ResponseEntity<MessageRestError> cpfNaoEncontrado(CpfNaoEncontradoException ex)
+    {
+        MessageRestError messageRestError = new MessageRestError(HttpStatus.NOT_FOUND, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(messageRestError);
+    }
+
     @ExceptionHandler(CnpjRepetidoException.class)
     public ResponseEntity<MessageRestError> cnpjRepetido(CnpjRepetidoException ex)
     {
@@ -39,18 +46,18 @@ public class ExceptionsHandlers {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(messageRestError);
     }
 
+    @ExceptionHandler(CnpjNaoEncontradoException.class)
+    public ResponseEntity<MessageRestError> cnpjNaoEncontrado(CnpjNaoEncontradoException ex)
+    {
+        MessageRestError messageRestError = new MessageRestError(HttpStatus.NOT_FOUND,ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(messageRestError);
+    }
+
     @ExceptionHandler(EmailRepetidoException.class)
     public ResponseEntity<MessageRestError> EmailRepetido(EmailRepetidoException ex)
     {
         MessageRestError messageRestError = new MessageRestError(HttpStatus.CONFLICT, ex.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(messageRestError);
-    }
-
-    @ExceptionHandler(CpfNaoEncontradoException.class)
-    public ResponseEntity<MessageRestError> cpfNaoEncontrado(CpfNaoEncontradoException ex)
-    {
-        MessageRestError messageRestError = new MessageRestError(HttpStatus.NOT_FOUND, ex.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(messageRestError);
     }
 
     @ExceptionHandler(IdNaoEncontradoException.class)

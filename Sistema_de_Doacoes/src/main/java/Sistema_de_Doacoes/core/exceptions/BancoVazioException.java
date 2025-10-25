@@ -5,6 +5,6 @@ public class BancoVazioException extends RuntimeException {
         super(message);
     }
     public BancoVazioException() {
-        super("Banco de dados vazio");
+        super("Nenhum registro cadastrado");
     }
 }

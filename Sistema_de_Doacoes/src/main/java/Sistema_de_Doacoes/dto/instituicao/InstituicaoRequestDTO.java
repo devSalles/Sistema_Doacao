@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.br.CNPJ;
 
-import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -39,9 +38,6 @@ public class InstituicaoRequestDTO {
     @Pattern(regexp = "\\d{5}-\\d{3}", message = "O CEP deve estar no formato 00000-000")
     private String cep;
 
-    @Column(nullable = false)
-    private LocalDate dataCadastro = LocalDate.now();
-
     public Instituicao toInstituicao()
     {
         Instituicao instituicao = new Instituicao();
@@ -52,7 +48,6 @@ public class InstituicaoRequestDTO {
         instituicao.setTelefone(this.telefone);
         instituicao.setEndereco(this.endereco);
         instituicao.setCep(this.cep);
-        instituicao.setDataCadastro(this.dataCadastro);
 
         return instituicao;
     }

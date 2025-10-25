@@ -3,6 +3,7 @@ package Sistema_de_Doacoes.controller;
 import Sistema_de_Doacoes.dto.doador.DoadorRequestDTO;
 import Sistema_de_Doacoes.dto.doador.DoadorRequestUpdateDTO;
 import Sistema_de_Doacoes.service.DoadorService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/doador")
 @RequiredArgsConstructor
+@Tag(name = "Doador")
 public class DoadorController {
 
     private final DoadorService doadorService;
