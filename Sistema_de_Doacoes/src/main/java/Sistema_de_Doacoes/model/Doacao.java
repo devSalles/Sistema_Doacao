@@ -24,10 +24,10 @@ public class Doacao {
     private Double valor;
 
     @Column(nullable = false)
-    private LocalDate data;
+    private String descricao;
 
     @Column(nullable = false)
-    private String descricao;
+    private LocalDate data = LocalDate.now();
 
     @Column(nullable = false)
     private PagamentoEnum metodoPagamento;
