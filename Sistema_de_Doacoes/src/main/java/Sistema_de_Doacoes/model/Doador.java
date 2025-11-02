@@ -32,7 +32,7 @@ public class Doador {
     @Column(unique = true,nullable = false)
     private String cpf;
 
-    @Column(nullable = false)
+    @Column(unique = true ,nullable = false)
     private String telefone;
 
     @Column(nullable = false) @PastOrPresent(message = "Data deve ser passada ou de agora")

@@ -1,10 +1,8 @@
 package Sistema_de_Doacoes.service;
 
-import Sistema_de_Doacoes.core.exceptions.BancoVazioException;
-import Sistema_de_Doacoes.core.exceptions.CnpjNaoEncontradoException;
-import Sistema_de_Doacoes.core.exceptions.CnpjRepetidoException;
-import Sistema_de_Doacoes.core.exceptions.EmailRepetidoException;
+import Sistema_de_Doacoes.core.exceptions.*;
 import Sistema_de_Doacoes.dto.instituicao.InstituicaoRequestDTO;
+import Sistema_de_Doacoes.dto.instituicao.InstituicaoRequestUpdateDTO;
 import Sistema_de_Doacoes.dto.instituicao.InstituicaoResponseDTO;
 import Sistema_de_Doacoes.model.Instituicao;
 import Sistema_de_Doacoes.repository.InstituicaoRepository;
@@ -33,16 +31,22 @@ public class InstituicaoService {
             throw new EmailRepetidoException();
         }
 
+        Instituicao existeTelefone = this.instituicaoRepository.findByTelefone(instituicaoRequestDTO.getTelefone());
+        if(existeTelefone != null && existeTelefone.getTelefone().equals(instituicaoRequestDTO.getTelefone()))
+        {
+            throw new TelefoneRepetidoException("Telefone de instituição já cadastrado");
+        }
+
         Instituicao instituicao = instituicaoRequestDTO.toInstituicao();
         return this.instituicaoRepository.save(instituicao);
     }
     //Metodo responsável por atualizar instituição
-    public Instituicao putInstituicao(String cnpj, InstituicaoRequestDTO instituicaoRequestDTO)
+    public Instituicao putInstituicao(String cnpj, InstituicaoRequestUpdateDTO instituicaoRequestDTO)
     {
         Instituicao instituicaoCnpj= buscarCNPJ(cnpj);
 
         instituicaoRequestDTO.updateInstituicao(instituicaoCnpj);
-        return instituicaoCnpj;
+        return this.instituicaoRepository.save(instituicaoCnpj);
     }
 
     //Metodo responsável por listar por cnpj

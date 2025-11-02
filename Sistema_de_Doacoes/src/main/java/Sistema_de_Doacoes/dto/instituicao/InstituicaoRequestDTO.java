@@ -1,7 +1,6 @@
 package Sistema_de_Doacoes.dto.instituicao;
 
 import Sistema_de_Doacoes.model.Instituicao;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -22,10 +21,12 @@ public class InstituicaoRequestDTO {
     @NotNull(message = "nome obrigatório") @NotBlank(message = "nome obrigatório")
     private String nome;
 
-    @NotNull(message = "cnpj obrigatório") @NotBlank(message = "cnpj obrigatório") @CNPJ(message = "CNPJ inválido")
+    @NotNull(message = "cnpj obrigatório") @NotBlank(message = "cnpj obrigatório")
+    @CNPJ(message = "CNPJ inválido")
     private String cnpj;
 
-    @NotNull(message = "email obrigatório") @NotBlank(message = "email obrigatório") @Email(message = "Email inválido")
+    @NotNull(message = "email obrigatório") @NotBlank(message = "email obrigatório")
+    @Email(message = "Email inválido")
     private String email;
 
     @NotNull(message = "telefone obrigatório") @NotBlank(message = "telefone obrigatório")
@@ -48,17 +49,6 @@ public class InstituicaoRequestDTO {
         instituicao.setTelefone(this.telefone);
         instituicao.setEndereco(this.endereco);
         instituicao.setCep(this.cep);
-
-        return instituicao;
-    }
-
-    public Instituicao updateInstituicao(Instituicao instituicao)
-    {
-        instituicao.setNome(this.getNome());
-        instituicao.setEmail(this.getEmail());
-        instituicao.setTelefone(this.getTelefone());
-        instituicao.setEndereco(this.getEndereco());
-        instituicao.setCep(this.getCep());
 
         return instituicao;
     }

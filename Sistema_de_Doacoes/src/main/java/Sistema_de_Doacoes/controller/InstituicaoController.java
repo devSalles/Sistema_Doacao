@@ -1,6 +1,7 @@
 package Sistema_de_Doacoes.controller;
 
 import Sistema_de_Doacoes.dto.instituicao.InstituicaoRequestDTO;
+import Sistema_de_Doacoes.dto.instituicao.InstituicaoRequestUpdateDTO;
 import Sistema_de_Doacoes.service.InstituicaoService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -24,7 +25,7 @@ public class InstituicaoController {
     }
 
     @PutMapping("/atualizar-cnpj/{cnpj}")
-    public ResponseEntity<Object> atualizarPorCnpj(@PathVariable String cnpj,@Valid @RequestBody InstituicaoRequestDTO instituicaoRequestDTO)
+    public ResponseEntity<Object> atualizarPorCnpj(@PathVariable String cnpj,@Valid @RequestBody InstituicaoRequestUpdateDTO instituicaoRequestDTO)
     {
         return ResponseEntity.ok(this.instituicaoService.putInstituicao(cnpj,instituicaoRequestDTO));
     }
