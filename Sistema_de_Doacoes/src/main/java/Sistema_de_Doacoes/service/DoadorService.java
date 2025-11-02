@@ -34,6 +34,12 @@ public class DoadorService {
             throw new EmailRepetidoException();
         }
 
+        Doador existeTelefone = this.doadorRepository.findByTelefone(doadorRequestDTO.getTelefone());
+        if(existeTelefone != null && existeTelefone.getTelefone().equals(doadorRequestDTO.getTelefone()))
+        {
+            throw new TelefoneRepetidoException("Telefone de doador já cadastrado");
+        }
+
         Doador doador = doadorRequestDTO.toDoador();
         return this.doadorRepository.save(doador);
     }

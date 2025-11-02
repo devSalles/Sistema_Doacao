@@ -12,4 +12,6 @@ public interface DoadorRepository extends JpaRepository<Doador,Long> {
 
     //Metodo para procura de email
     Doador findByCpf(String cpf);
+
+    Doador findByTelefone(String telefone);
 }
