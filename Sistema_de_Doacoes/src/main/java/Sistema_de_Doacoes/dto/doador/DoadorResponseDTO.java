@@ -5,6 +5,7 @@ import Sistema_de_Doacoes.model.Doador;
 import java.time.LocalDate;
 
 public record DoadorResponseDTO(
+        Long id,
         String nome,
         String email,
         String cpf,
@@ -13,7 +14,7 @@ public record DoadorResponseDTO(
 ) {
     public static DoadorResponseDTO fromDoador(Doador doador)
     {
-        return new DoadorResponseDTO(doador.getNome(),doador.getEmail(), doador.getCpf(),doador.getTelefone(),doador.getDataCadastro());
+        return new DoadorResponseDTO(doador.getId(), doador.getNome(),doador.getEmail(), doador.getCpf(),doador.getTelefone(),doador.getDataCadastro());
     }
 
 }

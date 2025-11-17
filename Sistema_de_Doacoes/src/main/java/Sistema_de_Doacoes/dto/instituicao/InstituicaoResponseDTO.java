@@ -5,6 +5,7 @@ import Sistema_de_Doacoes.model.Instituicao;
 import java.time.LocalDate;
 
 public record InstituicaoResponseDTO(
+        Long id,
         String nome,
         String cnpj,
         String email,
@@ -15,7 +16,7 @@ public record InstituicaoResponseDTO(
 ) {
     public static InstituicaoResponseDTO fromInstituicao(Instituicao instituicao)
     {
-        return new InstituicaoResponseDTO(instituicao.getNome(), instituicao.getCnpj(), instituicao.getEmail(), instituicao.getTelefone(),
+        return new InstituicaoResponseDTO(instituicao.getId(), instituicao.getNome(), instituicao.getCnpj(), instituicao.getEmail(), instituicao.getTelefone(),
                 instituicao.getEndereco(), instituicao.getCep(), instituicao.getDataCadastro());
     }
 }
