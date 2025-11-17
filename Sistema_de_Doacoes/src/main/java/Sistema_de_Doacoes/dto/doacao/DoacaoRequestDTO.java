@@ -4,16 +4,10 @@ import Sistema_de_Doacoes.Enum.PagamentoEnum;
 import Sistema_de_Doacoes.model.Doacao;
 import Sistema_de_Doacoes.model.Doador;
 import Sistema_de_Doacoes.model.Instituicao;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
-import jakarta.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import java.time.LocalDate;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.*;
+import lombok.*;
 
 @Getter
 @Setter
@@ -24,13 +18,10 @@ public class DoacaoRequestDTO {
     @NotNull(message = "descrição obrigatória") @NotBlank(message = "descrição obrigatória")
     private String descricao;
 
-    @NotNull(message = "Valor obrigatório") @Positive(message = "O valor da doação deve ser maior que zero")
+    @NotNull(message = "Valor obrigatório") @DecimalMin(value = "0.01", message = "Valor deve ser mais que 0 ")
     private Double valor;
 
-    @NotNull(message = "Data obrigatória") @PastOrPresent(message = "Data da doação não pode ser futura")
-    private LocalDate data;
-
-    @NotNull(message = "Pagamento obrigatório")
+    @NotNull(message = "Pagamento obrigatório") @Enumerated(EnumType.STRING)
     private PagamentoEnum metodoPagamento;
 
     public Doacao toDoacao(Doador doador, Instituicao instituicao)
@@ -39,10 +30,17 @@ public class DoacaoRequestDTO {
 
         doacaoNew.setDescricao(this.descricao);
         doacaoNew.setValor(this.valor);
-        doacaoNew.setData(this.data);
         doacaoNew.setMetodoPagamento(this.metodoPagamento);
-        doacaoNew.setDoador(doador);
-        doacaoNew.setInstituicao(instituicao);
+
+        if(doacaoNew.getDoador() == null)
+        {
+            doacaoNew.setDoador(doador);
+        }
+
+        if(doacaoNew.getInstituicao() == null)
+        {
+            doacaoNew.setInstituicao(instituicao);
+        }
 
         return doacaoNew;
     }
@@ -54,7 +52,7 @@ public class DoacaoRequestDTO {
         doacao.setMetodoPagamento(this.getMetodoPagamento());
         doacao.setDoador(doador);
         doacao.setInstituicao(instituicao);
-
         return doacao;
     }
+
 }
