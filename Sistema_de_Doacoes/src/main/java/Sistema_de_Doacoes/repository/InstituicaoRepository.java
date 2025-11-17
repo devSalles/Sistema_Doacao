@@ -16,5 +16,6 @@ public interface InstituicaoRepository extends JpaRepository<Instituicao,Long> {
     //Responsável por procurar nome
     Instituicao findByNome(String nome);
 
+    //Responsável por procurar telefone
     Instituicao findByTelefone(String telefone);
 }
