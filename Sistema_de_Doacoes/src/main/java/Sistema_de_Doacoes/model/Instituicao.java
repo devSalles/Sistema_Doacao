@@ -1,5 +1,6 @@
 package Sistema_de_Doacoes.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -42,6 +43,7 @@ public class Instituicao {
     private LocalDate dataCadastro = LocalDate.now();
 
     @OneToMany(mappedBy = "instituicao",cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Doacao> doacoes;
 }
 

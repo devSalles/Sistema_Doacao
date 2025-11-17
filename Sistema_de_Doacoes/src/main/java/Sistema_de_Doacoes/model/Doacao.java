@@ -29,7 +29,7 @@ public class Doacao {
     @Column(nullable = false)
     private LocalDate data = LocalDate.now();
 
-    @Column(nullable = false)
+    @Column(nullable = false) @Enumerated(EnumType.STRING)
     private PagamentoEnum metodoPagamento;
 
     @ManyToOne

@@ -1,7 +1,7 @@
 package Sistema_de_Doacoes.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,5 +39,6 @@ public class Doador {
     private LocalDate dataCadastro = LocalDate.now();
 
     @OneToMany(mappedBy = "doador", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Doacao> doacoes;
 }
