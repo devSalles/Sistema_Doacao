@@ -48,4 +48,10 @@ public class InstituicaoController {
         return ResponseEntity.ok(this.instituicaoService.listarTodos());
     }
 
+    @DeleteMapping("/deletar-cnpj/{cnpj}")
+    public ResponseEntity<Object> deletarCnpj(String cnpj)
+    {
+        return ResponseEntity.ok(this.instituicaoService.deletarInstituicao(cnpj));
+    }
+
 }

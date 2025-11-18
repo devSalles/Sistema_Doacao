@@ -46,4 +46,10 @@ public class DoadorController {
     {
         return ResponseEntity.ok(this.doadorService.listarTodos());
     }
+
+    @DeleteMapping("/deletar-cpf/{cpf}")
+    public ResponseEntity<Object> deleteByCpf(@PathVariable String cpf)
+    {
+        return ResponseEntity.ok(this.doadorService.excluirDoador(cpf));
+    }
 }
