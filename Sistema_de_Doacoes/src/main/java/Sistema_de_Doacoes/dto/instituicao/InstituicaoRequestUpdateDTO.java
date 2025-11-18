@@ -25,6 +25,7 @@ public class InstituicaoRequestUpdateDTO {
     private String email;
 
     @NotNull(message = "telefone obrigatório") @NotBlank(message = "telefone obrigatório")
+    @Pattern(regexp = "^\\d{10,11}$", message = "Telefone inválido. Use DDD e número ex: 1134567890 ou 11987654321")
     private String telefone;
 
     @NotNull(message = "endereço obrigatório") @NotBlank(message = "endereço obrigatório")
@@ -38,6 +39,7 @@ public class InstituicaoRequestUpdateDTO {
     public Instituicao updateInstituicao(Instituicao instituicao)
     {
         instituicao.setNome(this.getNome());
+        instituicao.setEmail(this.getEmail());
         instituicao.setTelefone(this.getTelefone());
         instituicao.setEndereco(this.getEndereco());
         instituicao.setCep(this.getCep());

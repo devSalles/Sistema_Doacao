@@ -27,6 +27,13 @@ public class ExceptionsHandlers {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(messageRestError);
     }
 
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<MessageRestError> excecoesRunTime(RuntimeException ex)
+    {
+        MessageRestError messageRestError = new MessageRestError(HttpStatus.BAD_REQUEST, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageRestError);
+    }
+
     //Exceção para nenhum registro cadastrado no banco de dados
     @ExceptionHandler(BancoVazioException.class)
     public ResponseEntity<MessageRestError> bancoVazio(BancoVazioException ex)

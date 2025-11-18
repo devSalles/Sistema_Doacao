@@ -30,6 +30,7 @@ public class InstituicaoRequestDTO {
     private String email;
 
     @NotNull(message = "telefone obrigatório") @NotBlank(message = "telefone obrigatório")
+    @Pattern(regexp = "^\\d{10,11}$", message = "Telefone inválido. Use DDD e número ex: 1134567890 ou 11987654321")
     private String telefone;
 
     @NotNull(message = "endereço obrigatório") @NotBlank(message = "endereço obrigatório")

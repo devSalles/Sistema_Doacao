@@ -1,12 +1,15 @@
 package Sistema_de_Doacoes.dto.doador;
 
 import Sistema_de_Doacoes.model.Doador;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.br.CPF;
 
 @Getter
 @Setter
@@ -18,12 +21,15 @@ public class DoadorRequestDTO {
     private String nome;
 
     @NotNull(message = "email obrigatório") @NotBlank(message = "email obrigatório")
+    @Email(message = "formato de email inválido")
     private String email;
 
     @NotNull(message = "CPF obrigatório") @NotBlank(message = "CPF obrigatório")
+    @CPF(message = "Formato de CPF inválido")
     private String cpf;
 
     @NotNull(message = "telefone obrigatório") @NotBlank(message = "telefone obrigatório")
+    @Pattern(regexp = "^\\d{10,11}$", message = "Telefone inválido. Use DDD e número ex: 1134567890 ou 11987654321")
     private String telefone;
 
     public Doador toDoador()
