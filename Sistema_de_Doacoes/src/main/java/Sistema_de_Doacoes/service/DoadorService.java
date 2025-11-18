@@ -5,7 +5,9 @@ import Sistema_de_Doacoes.dto.doador.DoadorRequestDTO;
 import Sistema_de_Doacoes.dto.doador.DoadorRequestUpdateDTO;
 import Sistema_de_Doacoes.dto.doador.DoadorResponseDTO;
 import Sistema_de_Doacoes.model.Doador;
+import Sistema_de_Doacoes.repository.DoacaoRepository;
 import Sistema_de_Doacoes.repository.DoadorRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +18,9 @@ import java.util.List;
 public class DoadorService {
 
     private final DoadorRepository doadorRepository;
+    private final DoacaoRepository doacaoRepository;
 
-
+    @Transactional
     public Doador postDoador(DoadorRequestDTO doadorRequestDTO)
     {
         //Veiricação de CPF repitido
@@ -44,9 +47,16 @@ public class DoadorService {
         return this.doadorRepository.save(doador);
     }
 
+    @Transactional
     public Doador putDoador(String cpf, DoadorRequestUpdateDTO doadorRequestDTO)
     {
         Doador doador = buscaPorCPF(cpf);
+
+        Doador doadorTelefone = this.doadorRepository.findByTelefone(doadorRequestDTO.getTelefone());
+        if(doadorTelefone != null && doadorTelefone.getTelefone().equals(doadorRequestDTO.getTelefone()))
+        {
+            throw new TelefoneRepetidoException("Telefone de doador já cadatrado");
+        }
 
         doadorRequestDTO.updateDoador(doador);
         return this.doadorRepository.save(doador);
@@ -78,6 +88,21 @@ public class DoadorService {
         return doadorList.stream().map(d->DoadorResponseDTO.fromDoador(d)).toList();
     }
 
+    //Metodo responsável por exclusão
+    public Doador excluirDoador(String cpf)
+    {
+        Doador doador = buscaPorCPF(cpf);
+
+        boolean possuiDoacoes = doacaoRepository.existsByDoadorCpf(cpf);
+
+        if(possuiDoacoes)
+        {
+            throw new RuntimeException("Doador possui doações associadas");
+        }
+
+        doadorRepository.delete(doador);
+        return doador;
+    }
 
     //Metodo responsável pela busca do CPF
     public Doador buscaPorCPF(String cpf)

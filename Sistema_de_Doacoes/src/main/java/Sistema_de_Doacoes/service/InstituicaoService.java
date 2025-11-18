@@ -5,7 +5,9 @@ import Sistema_de_Doacoes.dto.instituicao.InstituicaoRequestDTO;
 import Sistema_de_Doacoes.dto.instituicao.InstituicaoRequestUpdateDTO;
 import Sistema_de_Doacoes.dto.instituicao.InstituicaoResponseDTO;
 import Sistema_de_Doacoes.model.Instituicao;
+import Sistema_de_Doacoes.repository.DoacaoRepository;
 import Sistema_de_Doacoes.repository.InstituicaoRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -15,8 +17,10 @@ import java.util.List;
 public class InstituicaoService {
 
     private final InstituicaoRepository instituicaoRepository;
+    private final DoacaoRepository doacaoRepository;
 
     //Metodo responsável por adicionar nova instituição
+    @Transactional
     public Instituicao newInstituicao(InstituicaoRequestDTO instituicaoRequestDTO)
     {
         Instituicao existeCNPJ = this.instituicaoRepository.findByCnpj(instituicaoRequestDTO.getCnpj());
@@ -40,10 +44,24 @@ public class InstituicaoService {
         Instituicao instituicao = instituicaoRequestDTO.toInstituicao();
         return this.instituicaoRepository.save(instituicao);
     }
+
+    @Transactional
     //Metodo responsável por atualizar instituição
     public Instituicao putInstituicao(String cnpj, InstituicaoRequestUpdateDTO instituicaoRequestDTO)
     {
         Instituicao instituicaoCnpj= buscarCNPJ(cnpj);
+
+        Instituicao instEmail= this.instituicaoRepository.findByEmail(instituicaoRequestDTO.getEmail());
+        if(instEmail !=null && instEmail.getEmail().equals(instituicaoRequestDTO.getEmail()))
+        {
+            throw new EmailRepetidoException("Email de instituição já cadastrado");
+        }
+
+        Instituicao instTelefone = this.instituicaoRepository.findByTelefone(instituicaoRequestDTO.getTelefone());
+        if(instTelefone != null && instTelefone.getTelefone().equals(instituicaoRequestDTO.getTelefone()))
+        {
+            throw new TelefoneRepetidoException("Telefone de instituição já cadstrado");
+        }
 
         instituicaoRequestDTO.updateInstituicao(instituicaoCnpj);
         return this.instituicaoRepository.save(instituicaoCnpj);
@@ -79,6 +97,21 @@ public class InstituicaoService {
         }
 
         return instituicaoList.stream().map(i-> InstituicaoResponseDTO.fromInstituicao(i)).toList();
+    }
+
+    //Metodo responsável por exclusão
+    public Instituicao deletarInstituicao(String cnpj)
+    {
+        Instituicao instituicao = buscarCNPJ(cnpj);
+
+        boolean possuiInstuticao = doacaoRepository.existsByInstituicaoCnpj(cnpj);
+        if(possuiInstuticao)
+        {
+            throw new RuntimeException("Instuição possui doação associada");
+        }
+
+        this.instituicaoRepository.delete(instituicao);
+        return instituicao;
     }
 
     //Metodo responsável por buscar CNPJ
