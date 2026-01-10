@@ -18,28 +18,28 @@ public class InstituicaoController {
 
     private final InstituicaoService instituicaoService;
 
-    @PostMapping("/add")
+    @PostMapping("/salvar")
     public ResponseEntity<Object> addNew(@Valid @RequestBody InstituicaoRequestDTO instituicaoRequestDTO)
     {
-        return ResponseEntity.ok(this.instituicaoService.newInstituicao(instituicaoRequestDTO));
+        return ResponseEntity.ok(this.instituicaoService.novaInstituicao(instituicaoRequestDTO));
     }
 
     @PutMapping("/atualizar-cnpj/{cnpj}")
     public ResponseEntity<Object> atualizarPorCnpj(@PathVariable String cnpj,@Valid @RequestBody InstituicaoRequestUpdateDTO instituicaoRequestDTO)
     {
-        return ResponseEntity.ok(this.instituicaoService.putInstituicao(cnpj,instituicaoRequestDTO));
+        return ResponseEntity.ok(this.instituicaoService.atualizarInstituicao(cnpj,instituicaoRequestDTO));
     }
 
-    @GetMapping("/exibir-cnpj/{cnpj}")
+    @GetMapping("/buscar-cnpj/{cnpj}")
     public ResponseEntity<Object> listarPorCnpj(@PathVariable String cnpj)
     {
-        return ResponseEntity.ok(this.instituicaoService.listarPorCNPJ(cnpj));
+        return ResponseEntity.ok(this.instituicaoService.procurarCNPJ(cnpj));
     }
 
-    @GetMapping("/exibir-nome/{nome}")
+    @GetMapping("/buscar-nome/{nome}")
     public ResponseEntity<Object> listarPorNome(@PathVariable String nome)
     {
-        return ResponseEntity.ok(this.instituicaoService.listarPorNome(nome));
+        return ResponseEntity.ok(this.instituicaoService.buscarNomeInst(nome));
     }
 
     @GetMapping("/listar-todos")
@@ -53,5 +53,4 @@ public class InstituicaoController {
     {
         return ResponseEntity.ok(this.instituicaoService.deletarInstituicao(cnpj));
     }
-
 }

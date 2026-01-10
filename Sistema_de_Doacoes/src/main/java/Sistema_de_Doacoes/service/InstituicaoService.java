@@ -21,7 +21,7 @@ public class InstituicaoService {
 
     //Metodo responsável por adicionar nova instituição
     @Transactional
-    public Instituicao newInstituicao(InstituicaoRequestDTO instituicaoRequestDTO)
+        public Instituicao novaInstituicao(InstituicaoRequestDTO instituicaoRequestDTO)
     {
         Instituicao existeCNPJ = this.instituicaoRepository.findByCnpj(instituicaoRequestDTO.getCnpj());
         if(existeCNPJ != null && existeCNPJ.getCnpj().equals(instituicaoRequestDTO.getCnpj()))
@@ -47,7 +47,7 @@ public class InstituicaoService {
 
     @Transactional
     //Metodo responsável por atualizar instituição
-    public Instituicao putInstituicao(String cnpj, InstituicaoRequestUpdateDTO instituicaoRequestDTO)
+    public Instituicao atualizarInstituicao(String cnpj, InstituicaoRequestUpdateDTO instituicaoRequestDTO)
     {
         Instituicao instituicaoCnpj= buscarCNPJ(cnpj);
 
@@ -68,14 +68,14 @@ public class InstituicaoService {
     }
 
     //Metodo responsável por listar por cnpj
-    public InstituicaoResponseDTO listarPorCNPJ(String cnpj)
+    public InstituicaoResponseDTO procurarCNPJ(String cnpj)
     {
         Instituicao instituicaoCNPJ = buscarCNPJ(cnpj);
         return InstituicaoResponseDTO.fromInstituicao(instituicaoCNPJ);
     }
 
     //Metodo responsável por listar por nome
-    public InstituicaoResponseDTO listarPorNome(String nome)
+    public InstituicaoResponseDTO buscarNomeInst(String nome)
     {
         Instituicao instituicaoNome = this.instituicaoRepository.findByNome(nome);
 
@@ -113,6 +113,9 @@ public class InstituicaoService {
         this.instituicaoRepository.delete(instituicao);
         return instituicao;
     }
+
+    //---------------------- METODO AUXILIAR ----------------------
+
 
     //Metodo responsável por buscar CNPJ
     public Instituicao buscarCNPJ(String cnpj)

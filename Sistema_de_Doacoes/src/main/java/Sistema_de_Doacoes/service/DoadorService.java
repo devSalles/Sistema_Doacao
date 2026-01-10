@@ -21,7 +21,7 @@ public class DoadorService {
     private final DoacaoRepository doacaoRepository;
 
     @Transactional
-    public Doador postDoador(DoadorRequestDTO doadorRequestDTO)
+    public Doador novoDoador(DoadorRequestDTO doadorRequestDTO)
     {
         //Veiricação de CPF repitido
         Doador existeCPF = this.doadorRepository.findByCpf(doadorRequestDTO.getCpf());
@@ -48,7 +48,7 @@ public class DoadorService {
     }
 
     @Transactional
-    public Doador putDoador(String cpf, DoadorRequestUpdateDTO doadorRequestDTO)
+    public Doador atualizarDoador(String cpf, DoadorRequestUpdateDTO doadorRequestDTO)
     {
         Doador doador = buscaPorCPF(cpf);
 
@@ -63,14 +63,14 @@ public class DoadorService {
     }
 
     //Exibir por ID
-    public DoadorResponseDTO listarPorID(Long id)
+    public DoadorResponseDTO buscarID(Long id)
     {
         Doador doador = this.doadorRepository.findById(id).orElseThrow(IdNaoEncontradoException::new);
         return DoadorResponseDTO.fromDoador(doador);
     }
 
     //Exibir registro por CPF
-    public DoadorResponseDTO listarPorCPF(String cpf)
+    public DoadorResponseDTO buscarCPF(String cpf)
     {
         Doador doador = buscaPorCPF(cpf);
         return DoadorResponseDTO.fromDoador(doador);
@@ -103,6 +103,8 @@ public class DoadorService {
         doadorRepository.delete(doador);
         return doador;
     }
+
+    //---------------------- METODO AUXILIAR ----------------------
 
     //Metodo responsável pela busca do CPF
     public Doador buscaPorCPF(String cpf)

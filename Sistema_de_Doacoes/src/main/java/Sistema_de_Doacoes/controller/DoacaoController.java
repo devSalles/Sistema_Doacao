@@ -21,26 +21,32 @@ public class DoacaoController {
     @PostMapping("/nova-doacao/{cpf}/{cnpj}")
     public ResponseEntity<Object> adicionarDoacao(@Valid @RequestBody DoacaoRequestDTO doacaoRequestDTO, @PathVariable String cpf, @PathVariable String cnpj)
     {
-        return ResponseEntity.ok(this.doacaoService.addDoacao(doacaoRequestDTO,cpf, cnpj));
+        return ResponseEntity.ok(this.doacaoService.novaDoacao(doacaoRequestDTO,cpf, cnpj));
     }
 
     @PutMapping("/atualizacao-doacao/{id}/{cpf}/{cnpj}")
     public ResponseEntity<Object> atualizarDoacao(@PathVariable Long id, @Valid @RequestBody DoacaoRequestDTO doacaoRequestDTO,
                                                   @PathVariable String cpf, @PathVariable String cnpj)
     {
-        return ResponseEntity.ok(this.doacaoService.updateDoacao(id,doacaoRequestDTO,cpf,cnpj));
+        return ResponseEntity.ok(this.doacaoService.atualizarDoacao(id,doacaoRequestDTO,cpf,cnpj));
     }
 
-    @GetMapping("/listar-cpf/{cpf}")
+    @GetMapping("/buscar/{id}")
+    public ResponseEntity<?> buscarID(@PathVariable Long id)
+    {
+        return ResponseEntity.ok(this.doacaoService.buscarID(id));
+    }
+
+    @GetMapping("/buscar-cpf/{cpf}")
     public ResponseEntity<Object> mostrarCpf(@PathVariable String cpf)
     {
-        return ResponseEntity.ok(this.doacaoService.listarPorDoador(cpf));
+        return ResponseEntity.ok(this.doacaoService.buscarDoador(cpf));
     }
 
-    @GetMapping("/listar-cnpj/{cnpj}")
+    @GetMapping("/buscar-cnpj/{cnpj}")
     public ResponseEntity<Object> mostarCnpj(@PathVariable String cnpj)
     {
-        return ResponseEntity.ok(this.doacaoService.listarPorInstituicao(cnpj));
+        return ResponseEntity.ok(this.doacaoService.buscarInst(cnpj));
     }
 
     @GetMapping("/listar-todos")
@@ -58,7 +64,7 @@ public class DoacaoController {
     @GetMapping("soma-total-instituicao-doacao/{cnpj}")
     public ResponseEntity<Object> somaTotal(@PathVariable String cnpj)
     {
-        return ResponseEntity.ok(this.doacaoService.listarSomaTtotalDePorInstituicao(cnpj));
+        return ResponseEntity.ok(this.doacaoService.listarSomaTotalPorInstituicao(cnpj));
     }
 
     @DeleteMapping("/excluir-id/{id}")

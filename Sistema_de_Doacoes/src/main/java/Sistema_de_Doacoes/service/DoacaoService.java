@@ -29,47 +29,51 @@ public class DoacaoService {
 
     //Metodo responsável por adicionar doação
     @Transactional
-    public Doacao addDoacao(DoacaoRequestDTO doacaoRequestDTO,String cpf, String cnpj)
+    public DoacaoResponseDTO novaDoacao(DoacaoRequestDTO doacaoRequestDTO,String cpf, String cnpj)
     {
         Doador doadorCPF = buscarCPF(cpf);
-
         Instituicao instituicaoCNPJ = buscarCNPJ(cnpj);
 
         Doacao doacao = doacaoRequestDTO.toDoacao(doadorCPF,instituicaoCNPJ);
 
         this.doadorRepository.save(doadorCPF);
         this.instituicaoRepository.save(instituicaoCNPJ);
+        this.doacaoRepository.save(doacao);
 
-        return this.doacaoRepository.save(doacao);
+        return DoacaoResponseDTO.fromDoacao(doacao);
     }
 
     //Metodo responsável por atualizar doação
     @Transactional
-    public Doacao updateDoacao(Long id, DoacaoRequestDTO doacaoRequestDTO, String cpf, String cnpj)
+    public DoacaoResponseDTO atualizarDoacao(Long id, DoacaoRequestDTO doacaoRequestDTO, String cpf, String cnpj)
     {
         Doacao doacaoID = this.doacaoRepository.findById(id).orElseThrow(IdNaoEncontradoException::new);
 
         Doador doadorCpf = buscarCPF(cpf);
         Instituicao instituicaoCnpj = buscarCNPJ(cnpj);
-
         doacaoRequestDTO.updateDoacao(doacaoID,doadorCpf,instituicaoCnpj);
 
-        return this.doacaoRepository.save(doacaoID);
+        this.doacaoRepository.save(doacaoID);
+        return DoacaoResponseDTO.fromDoacao(doacaoID);
+    }
+
+    public DoacaoResponseDTO buscarID(Long id)
+    {
+        Doacao doacao = this.doacaoRepository.findById(id).orElseThrow(IdNaoEncontradoException::new);
+        return DoacaoResponseDTO.fromDoacao(doacao);
     }
 
     //Metodo responsável por exibir doações por CPF individuais
-    public List<Doacao> listarPorDoador(String cpf)
+    public List<Doacao> buscarDoador(String cpf)
     {
         Doador doador = buscarCPF(cpf);
-
         return this.doacaoRepository.findByDoador(doador);
     }
 
     //Metodo responsável por exibir doações por CNPJ individuais
-    public List<Instituicao> listarPorInstituicao(String cnpj)
+    public List<Instituicao> buscarInst(String cnpj)
     {
         Instituicao instituicao = buscarCNPJ(cnpj);
-
         return this.doacaoRepository.findByInstituicao(instituicao);
     }
 
@@ -82,31 +86,30 @@ public class DoacaoService {
             throw new BancoVazioException();
         }
 
-        return doacao.stream().map(d-> DoacaoResponseDTO.fromDoacao(d)).toList();
+        return doacao.stream().map(DoacaoResponseDTO::fromDoacao).toList();
     }
 
     public List<Doacao> listarPorPeriodo(String cpf, LocalDate DataInicial, LocalDate DataFinal)
     {
-        Doador doadorCPF = buscarCPF(cpf);
-
-        return this.doacaoRepository.findByDoadorAndDataBetween(doadorCPF, DataInicial, DataFinal);
+        Doador doador = buscarCPF(cpf);
+        return this.doacaoRepository.findByDoadorAndDataBetween(doador, DataInicial, DataFinal);
     }
 
-    public Double listarSomaTtotalDePorInstituicao(String cnpj)
+     public Double listarSomaTotalPorInstituicao(String cnpj)
     {
         Instituicao instituicaoCNPJ = buscarCNPJ(cnpj);
-
         return this.doacaoRepository.somaTotalPorInstitucao(instituicaoCNPJ);
     }
 
     //Metodo responsável por exclusão
-    public Doacao deletarDoacao(Long id)
+    public DoacaoResponseDTO deletarDoacao(Long id)
     {
         Doacao doacao = this.doacaoRepository.findById(id).orElseThrow(IdNaoEncontradoException::new);
-
         this.doacaoRepository.delete(doacao);
-        return doacao;
+        return DoacaoResponseDTO.fromDoacao(doacao);
     }
+
+    //---------------------- METODOS AUXILIARES ----------------------
 
     //Metodo responsável por realizar busca por CPF
     public Doador buscarCPF(String cpf)

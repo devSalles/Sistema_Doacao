@@ -17,31 +17,31 @@ public class DoadorController {
 
     private final DoadorService doadorService;
 
-    @PostMapping("/add")
+    @PostMapping("/salvar")
     public ResponseEntity<Object> addNew(@Valid @RequestBody DoadorRequestDTO doadorRequestDTO)
     {
-        return ResponseEntity.ok(this.doadorService.postDoador(doadorRequestDTO));
+        return ResponseEntity.ok(this.doadorService.novoDoador(doadorRequestDTO));
     }
 
     @PutMapping("/atualizar-cpf/{cpf}")
     public ResponseEntity<Object> putCPF(@PathVariable String cpf, @Valid @RequestBody DoadorRequestUpdateDTO doadorRequestDTO)
     {
-        return ResponseEntity.ok(this.doadorService.putDoador(cpf,doadorRequestDTO));
+        return ResponseEntity.ok(this.doadorService.atualizarDoador(cpf,doadorRequestDTO));
     }
 
-    @GetMapping("/exibir-id/{id}")
+    @GetMapping("/buscar/{id}")
     public ResponseEntity<Object> getID(@PathVariable Long id)
     {
-        return ResponseEntity.ok(this.doadorService.listarPorID(id));
+        return ResponseEntity.ok(this.doadorService.buscarID(id));
     }
 
-    @GetMapping("/exibir-cpf/{cpf}")
+    @GetMapping("/buscar-cpf/{cpf}")
     public ResponseEntity<Object> getCPF(@PathVariable String cpf)
     {
-        return ResponseEntity.ok(this.doadorService.listarPorCPF(cpf));
+        return ResponseEntity.ok(this.doadorService.buscarCPF(cpf));
     }
 
-    @GetMapping("/exibir-todos")
+    @GetMapping("/listar-todos")
     public ResponseEntity<Object> getAll()
     {
         return ResponseEntity.ok(this.doadorService.listarTodos());
