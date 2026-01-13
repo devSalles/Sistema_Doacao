@@ -96,7 +96,7 @@ public class InstituicaoService {
             throw new BancoVazioException();
         }
 
-        return instituicaoList.stream().map(i-> InstituicaoResponseDTO.fromInstituicao(i)).toList();
+        return instituicaoList.stream().map(InstituicaoResponseDTO::fromInstituicao).toList();
     }
 
     //Metodo responsável por exclusão

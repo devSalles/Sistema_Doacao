@@ -85,7 +85,7 @@ public class DoadorService {
             throw new BancoVazioException();
         }
 
-        return doadorList.stream().map(d->DoadorResponseDTO.fromDoador(d)).toList();
+        return doadorList.stream().map(DoadorResponseDTO::fromDoador).toList();
     }
 
     //Metodo responsável por exclusão
