@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -16,10 +17,21 @@ public class MessageRestError {
     private String message;
     private LocalDate timeStamp;
 
+    //mapeamento de erros de validação
+    private Map<String,String> fieldErros;
+
     public MessageRestError(HttpStatus status, String message)
     {
         this.status=status;
         this.message=message;
         this.timeStamp=LocalDate.now();
+    }
+
+    public MessageRestError(HttpStatus status, String message,Map<String,String> fieldErrors)
+    {
+        this.status=status;
+        this.message=message;
+        this.timeStamp=LocalDate.now();
+        this.fieldErros=fieldErrors;
     }
 }

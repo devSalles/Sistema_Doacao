@@ -45,8 +45,7 @@ public class InstituicaoService {
         return this.instituicaoRepository.save(instituicao);
     }
 
-    @Transactional
-    //Metodo responsável por atualizar instituição
+    @Transactional //Metodo responsável por atualizar instituição
     public Instituicao atualizarInstituicao(String cnpj, InstituicaoRequestUpdateDTO instituicaoRequestDTO)
     {
         Instituicao instituicaoCnpj= buscarCNPJ(cnpj);
@@ -107,7 +106,7 @@ public class InstituicaoService {
         boolean possuiInstuticao = doacaoRepository.existsByInstituicaoCnpj(cnpj);
         if(possuiInstuticao)
         {
-            throw new RuntimeException("Instuição possui doação associada");
+            throw new DoacaoAssociada();
         }
 
         this.instituicaoRepository.delete(instituicao);

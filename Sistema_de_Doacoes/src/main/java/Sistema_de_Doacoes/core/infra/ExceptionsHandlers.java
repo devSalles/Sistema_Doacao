@@ -7,6 +7,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @ControllerAdvice
 public class ExceptionsHandlers {
 
@@ -14,8 +17,11 @@ public class ExceptionsHandlers {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<MessageRestError> excecoes_de_entrada(MethodArgumentNotValidException ex)
     {
-        String errorMessage = ex.getBindingResult().getFieldErrors().stream().map(error->error.getDefaultMessage()).findFirst().orElse("Erro de validação");
-        MessageRestError messageRestError = new MessageRestError(HttpStatus.BAD_REQUEST,errorMessage);
+        Map<String,String> errors = new HashMap<>();
+
+        ex.getBindingResult().getFieldErrors().forEach(error->errors.put(error.getField(),error.getDefaultMessage()));
+
+        MessageRestError messageRestError = new MessageRestError(HttpStatus.BAD_REQUEST,"Erro de validação nos campos enviados",errors);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageRestError);
     }
 
@@ -27,8 +33,8 @@ public class ExceptionsHandlers {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(messageRestError);
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<MessageRestError> excecoesRunTime(RuntimeException ex)
+    @ExceptionHandler(DoacaoAssociada.class)
+    public ResponseEntity<MessageRestError> excecoesRunTime(DoacaoAssociada ex)
     {
         MessageRestError messageRestError = new MessageRestError(HttpStatus.BAD_REQUEST, ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageRestError);
