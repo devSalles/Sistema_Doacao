@@ -22,7 +22,16 @@ O sistema simula um cenário envolvendo **doadores**, **instituições** e **doa
 - Nome obrigatório  
 - E-mail, CPF e telefone únicos  
 - Pode realizar múltiplas doações  
-- Não pode ser excluído se houver doações associadas  
+- Não pode ser excluído se houver doações associadas
+
+```json
+{
+  "nome": "João da Silva",
+  "email": "joao.silva@email.com",
+  "cpf": "529.982.247-25",
+  "telefone": "11987654321"
+}
+```
 
 ### 🏢 Instituição
 - Nome e CNPJ válidos  
@@ -30,12 +39,32 @@ O sistema simula um cenário envolvendo **doadores**, **instituições** e **doa
 - Pode receber múltiplas doações  
 - Não pode ser removida se possuir doações registradas  
 
+```json
+{
+  "nome": "Empresa Exemplo LTDA",
+  "cnpj": "12.345.678/0001-95",
+  "email": "contato@empresaexemplo.com",
+  "telefone": "11987654321",
+  "endereco": "Rua das Flores, 123 - Centro, São Paulo - SP",
+  "cep": "01001-000"
+}
+```
+
 ### 💸 Doação
 - Vinculada a um doador e a uma instituição existentes  
 - Valor maior que zero  
 - Data não pode ser futura  
 - Armazena valor, descrição, data e método de pagamento  
 
+```json
+{
+  "descricao": "Alimentos",
+  "valor": 1000.1,
+  "metodoPagamento": "PIX",
+  "cpf": "529.982.247-25",
+  "cnpj": "12.345.678/0001-95"
+}
+```
 ---
 
 ## ⚙️ Funcionalidades Implementadas
