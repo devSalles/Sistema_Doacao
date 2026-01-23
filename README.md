@@ -49,12 +49,22 @@ O sistema simula um cenário envolvendo **doadores**, **instituições** e **doa
   "cep": "01001-000"
 }
 ```
+
 ### 💸 Doação
 - Vinculada a um doador e a uma instituição existentes  
 - Valor maior que zero  
 - Data não pode ser futura  
 - Armazena valor, descrição, data e método de pagamento  
 
+```json
+{
+  "descricao": "Alimentos",
+  "valor": 1000.1,
+  "metodoPagamento": "PIX",
+  "cpf": "529.982.247-25",
+  "cnpj": "12.345.678/0001-95"
+}
+```
 ---
 
 ## ⚙️ Funcionalidades Implementadas
