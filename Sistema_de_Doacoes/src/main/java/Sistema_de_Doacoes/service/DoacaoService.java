@@ -6,6 +6,7 @@ import Sistema_de_Doacoes.core.exceptions.CpfNaoEncontradoException;
 import Sistema_de_Doacoes.core.exceptions.IdNaoEncontradoException;
 import Sistema_de_Doacoes.dto.doacao.DoacaoRequestDTO;
 import Sistema_de_Doacoes.dto.doacao.DoacaoResponseDTO;
+import Sistema_de_Doacoes.dto.doacao.DoacaoUpdateRequestDTO;
 import Sistema_de_Doacoes.model.Doacao;
 import Sistema_de_Doacoes.model.Doador;
 import Sistema_de_Doacoes.model.Instituicao;
@@ -29,10 +30,10 @@ public class DoacaoService {
 
     //Metodo responsável por adicionar doação
     @Transactional
-    public DoacaoResponseDTO novaDoacao(DoacaoRequestDTO doacaoRequestDTO,String cpf, String cnpj)
+    public DoacaoResponseDTO novaDoacao(DoacaoRequestDTO doacaoRequestDTO)
     {
-        Doador doadorCPF = buscarCPF(cpf);
-        Instituicao instituicaoCNPJ = buscarCNPJ(cnpj);
+        Doador doadorCPF = buscarCPF(doacaoRequestDTO.getCpf());
+        Instituicao instituicaoCNPJ = buscarCNPJ(doacaoRequestDTO.getCnpj());
 
         Doacao doacao = doacaoRequestDTO.toDoacao(doadorCPF,instituicaoCNPJ);
 
@@ -45,13 +46,11 @@ public class DoacaoService {
 
     //Metodo responsável por atualizar doação
     @Transactional
-    public DoacaoResponseDTO atualizarDoacao(Long id, DoacaoRequestDTO doacaoRequestDTO, String cpf, String cnpj)
+    public DoacaoResponseDTO atualizarDoacao(Long id, DoacaoUpdateRequestDTO dto)
     {
         Doacao doacaoID = this.doacaoRepository.findById(id).orElseThrow(IdNaoEncontradoException::new);
 
-        Doador doadorCpf = buscarCPF(cpf);
-        Instituicao instituicaoCnpj = buscarCNPJ(cnpj);
-        doacaoRequestDTO.updateDoacao(doacaoID,doadorCpf,instituicaoCnpj);
+        dto.updateDoacao(doacaoID);
 
         this.doacaoRepository.save(doacaoID);
         return DoacaoResponseDTO.fromDoacao(doacaoID);

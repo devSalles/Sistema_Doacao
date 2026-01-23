@@ -8,6 +8,8 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.hibernate.validator.constraints.br.CNPJ;
+import org.hibernate.validator.constraints.br.CPF;
 
 @Getter
 @Setter
@@ -23,6 +25,12 @@ public class DoacaoRequestDTO {
 
     @NotNull(message = "Pagamento obrigatório") @Enumerated(EnumType.STRING)
     private PagamentoEnum metodoPagamento;
+
+    @NotBlank(message = "CPF obrigatório") @CPF(message = "Formato de CPF inválido")
+    String cpf;
+
+    @NotBlank(message = "CNPJ obrigatório") @CNPJ(message = "Formato de CNPJ inválido")
+    String cnpj;
 
     public Doacao toDoacao(Doador doador, Instituicao instituicao)
     {

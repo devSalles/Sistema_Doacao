@@ -1,6 +1,7 @@
 package Sistema_de_Doacoes.controller;
 
 import Sistema_de_Doacoes.dto.doacao.DoacaoRequestDTO;
+import Sistema_de_Doacoes.dto.doacao.DoacaoUpdateRequestDTO;
 import Sistema_de_Doacoes.service.DoacaoService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -18,17 +19,16 @@ public class DoacaoController {
 
     private final DoacaoService doacaoService;
 
-    @PostMapping("/nova-doacao/{cpf}/{cnpj}")
-    public ResponseEntity<Object> adicionarDoacao(@Valid @RequestBody DoacaoRequestDTO doacaoRequestDTO, @PathVariable String cpf, @PathVariable String cnpj)
+    @PostMapping("/nova-doacao")
+    public ResponseEntity<Object> adicionarDoacao(@Valid @RequestBody DoacaoRequestDTO doacaoRequestDTO)
     {
-        return ResponseEntity.ok(this.doacaoService.novaDoacao(doacaoRequestDTO,cpf, cnpj));
+        return ResponseEntity.ok(this.doacaoService.novaDoacao(doacaoRequestDTO));
     }
 
-    @PutMapping("/atualizacao-doacao/{id}/{cpf}/{cnpj}")
-    public ResponseEntity<Object> atualizarDoacao(@PathVariable Long id, @Valid @RequestBody DoacaoRequestDTO doacaoRequestDTO,
-                                                  @PathVariable String cpf, @PathVariable String cnpj)
+    @PutMapping("/atualizar-doacao/{id}")
+    public ResponseEntity<Object> atualizarDoacao(@PathVariable Long id, @Valid @RequestBody DoacaoUpdateRequestDTO doacaoRequestDTO)
     {
-        return ResponseEntity.ok(this.doacaoService.atualizarDoacao(id,doacaoRequestDTO,cpf,cnpj));
+        return ResponseEntity.ok(this.doacaoService.atualizarDoacao(id,doacaoRequestDTO));
     }
 
     @GetMapping("/buscar/{id}")
